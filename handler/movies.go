@@ -57,7 +57,7 @@ func GetMovies(res http.ResponseWriter, req *http.Request) {
 }
 
 // Get a single movie handler
-func getMovie(res http.ResponseWriter, req *http.Request) {
+func GetMovie(res http.ResponseWriter, req *http.Request) {
 
 	if req.Method != "GET" {
 		// Add the response return message
@@ -105,6 +105,104 @@ func getMovie(res http.ResponseWriter, req *http.Request) {
 		}`)
 
 		utils.ReturnJsonResponse(res, http.StatusInternalServerError, HandlerMessage)
+		return
+	}
+
+	utils.ReturnJsonResponse(res, http.StatusOK, movieJSON)
+}
+
+// Add a movie handler
+func AddMovie(res http.ResponseWriter, req *http.Request) {
+
+	if req.Method != "POST" {
+		// Add the response return message
+		HandlerMessage := []byte(`{
+			"success": false,
+			"message": "Check your HTTP method: Invalid HTTP method executed",	
+		}`)
+
+		utils.ReturnJsonResponse(res, http.StatusMethodNotAllowed, HandlerMessage)
+		return
+	}
+
+	var movie models.Movie
+
+	payload := req.Body
+
+	defer req.Body.Close()
+	// parse the movie data into json format
+	err := json.NewDecoder(payload).Decode(&movie)
+
+	if err != nil {
+		// Add the response return message
+		HandlerMessage := []byte(`{
+			"success": false,
+			"message": "Error parsing the movie data",
+		}`)
+
+		utils.ReturnJsonResponse(res, http.StatusInternalServerError, HandlerMessage)
+	}
+
+	db.Moviedb[movie.ID] = movie
+	// Add the response return message
+	HandlerMessage := []byte(`{
+		"success": true,
+		"message": "Movie was successfully created"
+	}`)
+
+	utils.ReturnJsonResponse(res, http.StatusOK, HandlerMessage)
+}
+
+// Delete a movie handler
+func DeleteMovie(res http.ResponseWriter, req *http.Request) {
+
+	if req.Method != "DELETE" {
+		// Add the response return message
+		HandlerMessage := []byte(`{
+			"success": false,
+			"message": "Check your HTTP method: Invalid HTTP method executed"
+		}`)
+
+		utils.ReturnJsonResponse(res, http.StatusMethodNotAllowed, HandlerMessage)
+		return
+	}
+
+	if _, ok := req.URL.Query()["id"]; !ok {
+		// Add the response return message
+		HandlerMessage := []byte(`{
+			"success": false,
+			"message": "This method requires the movie id",
+		}`)
+
+		utils.ReturnJsonResponse(res, http.StatusBadRequest, HandlerMessage)
+		return
+	}
+
+	id := req.URL.Query()["id"][0]
+	movie, ok := db.Moviedb[id]
+
+	if !ok {
+		// Add the response return message
+		HandlerMessage := []byte(`{
+			"success": false,
+			"massage": "Requested movie not found",
+		}`)
+
+		utils.ReturnJsonResponse(res, http.StatusNotFound, HandlerMessage)
+		return
+	}
+
+	// parse the movie data into json format
+	movieJSON, err := json.Marshal(&movie)
+
+	if err != nil {
+		// Add the response return message
+		HandlerMessage := []byte(`{
+			"success": false,
+			"message": "Error parsing the movie data"
+		}`)
+
+		utils.ReturnJsonResponse(res, http.StatusBadRequest, HandlerMessage)
 		return
 	}
 
