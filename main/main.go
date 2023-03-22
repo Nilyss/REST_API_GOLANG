@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	log.Print("This Server Running on localhost port 3000")
+	log.Print("This Server Running on localhost port 8080")
 
 	// initialize the database
 	db.Moviedb["001"] = models.Movie{ID: "001", Title: "A Space Odyssey", Description: "Science fiction"}
@@ -33,7 +33,7 @@ func main() {
 	http.HandleFunc("/movie/delete", handler.DeleteMovie)
 
 	// listen port
-	err := http.ListenAndServe(":3000", nil)
+	err := http.ListenAndServe(":8080", nil)
 	// print any server-based error messages
 	if err != nil {
 		fmt.Println(err)
