@@ -1,14 +1,27 @@
 import { useState } from "react";
 import "./searchBar.scss";
 
+// API calls
+import MovieService from "../../api/Services/MovieService";
+const movieService = new MovieService();
+
 export default function SearchBar() {
   const [inputMessage, setInputMessage] = useState("");
+  const [movies, setMovies] = useState([]);
 
   function handleChange(event) {
     setInputMessage(event.target.value);
   }
 
-  console.log("input =>", inputMessage);
+  function handleSubmit(e) {
+    e.preventDefault();
+    const getMovies = async () => {
+      const req = await movieService.getMovies();
+      setMovies(req);
+    };
+    getMovies();
+  }
+
   return (
     <>
       <div className="searchBarWrapper">
@@ -20,11 +33,25 @@ export default function SearchBar() {
             placeholder="Blade runner, Supernatural, ..."
             onChange={handleChange}
           />
-          <button type="submit" className="searchBarWrapper__submitButton">
+          <button
+            onClick={handleSubmit}
+            className="searchBarWrapper__submitButton"
+          >
             Search !
           </button>
         </form>
       </div>
+      {movies && (
+        <>
+          {movies.map((movie, index) => {
+            return (
+              <ul key={index}>
+                <li>{movie.title}</li>
+              </ul>
+            );
+          })}
+        </>
+      )}
     </>
   );
 }

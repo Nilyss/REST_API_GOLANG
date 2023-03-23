@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.scss";
 import SearchBar from "./components/searchBar/searchBar";
+import MovieFlow from "./components/movieFlow/movieFlow";
 
 function App() {
   const logo: string = require("./logo.png");
@@ -15,6 +16,11 @@ function App() {
         <section>
           <article>
             <SearchBar />
+          </article>
+        </section>
+        <section>
+          <article>
+            <MovieFlow />
           </article>
         </section>
       </main>

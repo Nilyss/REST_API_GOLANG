@@ -10,6 +10,14 @@ import (
 	"os"
 )
 
+// CORS OPTIONS
+func setupCorsResponse(w *http.ResponseWriter, req *http.Request) {
+	(*w).Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	(*w).Header().Set("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS")
+	(*w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+	(*w).Header().Set("Access-Control-Allow-Credentials", "true")
+}
+
 func main() {
 	log.Print("This Server Running on localhost port 8080")
 
@@ -22,15 +30,44 @@ func main() {
 	// route goes here
 
 	// test route
-	http.HandleFunc("/", handler.TestHandler)
-	// get movies
-	http.HandleFunc("/movies", handler.GetMovies)
+	http.HandleFunc("/api", func(w http.ResponseWriter, r *http.Request) {
+		setupCorsResponse(&w, r)
+		if r.Method == "OPTIONS" {
+			return
+		}
+		handler.TestHandler(w, r)
+	}) // get movies
+	http.HandleFunc("/api/movies", func(w http.ResponseWriter, r *http.Request) {
+		setupCorsResponse(&w, r)
+		if r.Method == "OPTIONS" {
+			return
+		}
+		handler.GetMovies(w, r)
+	})
 	// get a single movie
-	http.HandleFunc("/movie", handler.GetMovie)
+	http.HandleFunc("/api/movie", func(w http.ResponseWriter, r *http.Request) {
+		setupCorsResponse(&w, r)
+		if r.Method == "OPTIONS" {
+			return
+		}
+		handler.GetMovie(w, r)
+	})
 	// add movie
-	http.HandleFunc("/movie/add", handler.AddMovie)
+	http.HandleFunc("/api/movie/add", func(w http.ResponseWriter, r *http.Request) {
+		setupCorsResponse(&w, r)
+		if r.Method == "OPTIONS" {
+			return
+		}
+		handler.AddMovie(w, r)
+	})
 	// delete movie
-	http.HandleFunc("/movie/delete", handler.DeleteMovie)
+	http.HandleFunc("/api/movie/delete", func(w http.ResponseWriter, r *http.Request) {
+		setupCorsResponse(&w, r)
+		if r.Method == "OPTIONS" {
+			return
+		}
+		handler.DeleteMovie(w, r)
+	})
 
 	// listen port
 	err := http.ListenAndServe(":8080", nil)

@@ -1,0 +1,27 @@
+import axios from "axios";
+
+// axios configuration
+axios.defaults.baseURL = "http://localhost:8080/api";
+axios.defaults.headers.post["Content-Type"] = "application/json";
+axios.defaults.timeout = 6000;
+axios.defaults.withCredentials = true;
+
+const setRequest = (val) => {
+  const config = {
+    params: {},
+  };
+  if (val) {
+    config.params = val;
+  }
+  return config;
+};
+
+// axios request
+export const getRequest = async (url, val = null) => {
+  const result = await axios.get(url, { ...setRequest(val) });
+  if (result.status === 200) {
+    return result;
+  } else {
+    throw result.status;
+  }
+};
