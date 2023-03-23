@@ -1,0 +1,28 @@
+.moviesFlowWrapper {
+  margin-top: .1em;
+  background: #282c34;
+  min-height: 55.8vh;
+  padding: 5em;
+  display: flex;
+  flex-flow: column;
+  gap: 1.5em;
+}
+
+.moviesFlowWrapper__list {
+  list-style: none;
+  color: white;
+  display: flex;
+  align-items: center;
+}
+
+.moviesFlowWrapper__list__title {
+  display: flex;
+  width: 50%;
+  justify-content: flex-start;
+}
+
+.moviesFlowWrapper__list__overview {
+  display: flex;
+  width: 50%;
+  justify-content: flex-end;
+}

@@ -41,17 +41,6 @@ export default function SearchBar() {
           </button>
         </form>
       </div>
-      {movies && (
-        <>
-          {movies.map((movie, index) => {
-            return (
-              <ul key={index}>
-                <li>{movie.title}</li>
-              </ul>
-            );
-          })}
-        </>
-      )}
     </>
   );
 }
