@@ -1,31 +1,31 @@
 import { useState, useContext } from "react";
 import "./searchBar.scss";
-
+import { Movie } from "../../Utils/types";
 // API Datas
 import { MovieContext } from "../../Context";
 
 export default function SearchBar() {
   const { moviesData, setMovieData } = useContext(MovieContext);
-  const [title, setTitle] = useState<string>("");
+  const [titleValue, setTitleValue] = useState<string>("");
   const [message, setMessage] = useState<string>("");
+  
+  
   function handleChange(event) {
-    setTitle(event.target.value);
+    setTitleValue(event.target.value);
   }
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    // find requested movie id
-    moviesData.find((movie) => {
-      if (movie.title !== title) {
-        setMessage(`There's no movie or show with this name in DB ! `);
-        setMovieData("");
-      }
-      if (movie.title === title) {
-        setMessage(``);
-        setMovieData(movie);
-      }
-    });
+    if(moviesData) {
+      const movie = moviesData.find((movie: Movie) => movie.title === titleValue);
+      return movie
+        ? (setMovieData(movie), setMessage(""), setTitleValue(""))
+        : (setMessage("No movies found"), setTitleValue(""));
+    }
+    else {
+      return setMessage("No movies found");
+    }
   }
 
   return (
@@ -38,6 +38,7 @@ export default function SearchBar() {
             className="searchBarWrapper__input"
             placeholder="Blade runner, Supernatural, ..."
             onChange={handleChange}
+            value={titleValue}
           />
           <button
             onClick={handleSubmit}

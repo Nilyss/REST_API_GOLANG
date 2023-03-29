@@ -1,0 +1,55 @@
+.addMovieFormWrapper {
+  margin-top: 0.1em;
+  background: #282c34;
+  min-height: 25.8vh;
+  padding: 5em;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5em;
+}
+
+.addMovieFormWrapper__form {
+  display: flex;
+  flex-flow: column;
+  gap: 1em;
+}
+
+.addMovieFormWrapper__label {
+  color: white;
+  display: flex;
+  font-size: 24px;
+  font-style: oblique;
+  margin-bottom: .2em;
+}
+
+.inputWrapperAdd {
+  display: flex;
+  flex-flow: column;
+  align-self: flex-start;
+}
+
+.addMovieFormWrapper__title {
+  list-style: none;
+  color: white;
+  display: flex;
+}
+
+.addMovieFormWrapper__input {
+  width: 450px;
+  padding: 0.5em 1em 0.5em 1em;
+  font-size: 24px;
+  &::placeholder {
+    color: #282c34;
+  }
+  &:focus {
+    outline: none;
+    border: 2px solid #ff7300;
+  }
+}
+
+.addMovieFormWrapper__buttonWrapper__button {
+  padding: 0.5em 1em 0.5em 1em;
+  font-size: 24px;
+}

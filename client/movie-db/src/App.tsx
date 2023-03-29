@@ -2,6 +2,7 @@ import React from "react";
 import "./App.scss";
 import SearchBar from "./components/searchBar/searchBar";
 import MovieFlow from "./components/movieFlow/movieFlow";
+import AddMovieForm from "./components/addMovieForm/addMovieForm";
 
 // context
 import { MovieContextProvider } from "./Context";
@@ -20,6 +21,9 @@ function App() {
           <section>
             <article>
               <SearchBar />
+            </article>
+            <article>
+              <AddMovieForm />
             </article>
           </section>
           <section>
