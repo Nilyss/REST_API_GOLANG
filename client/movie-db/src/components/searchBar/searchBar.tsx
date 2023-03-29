@@ -1,31 +1,37 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import "./searchBar.scss";
 
-// API calls
-import MovieService from "../../api/Services/MovieService";
-const movieService = new MovieService();
+// API Datas
+import { MovieContext } from "../../Context";
 
 export default function SearchBar() {
-  const [inputMessage, setInputMessage] = useState("");
-  const [movies, setMovies] = useState([]);
-
+  const { moviesData, setMovieData } = useContext(MovieContext);
+  const [title, setTitle] = useState<string>("");
+  const [message, setMessage] = useState<string>("");
   function handleChange(event) {
-    setInputMessage(event.target.value);
+    setTitle(event.target.value);
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    const getMovies = async () => {
-      const req = await movieService.getMovies();
-      setMovies(req);
-    };
-    getMovies();
+
+    // find requested movie id
+    moviesData.find((movie) => {
+      if (movie.title !== title) {
+        setMessage(`There's no movie or show with this name in DB ! `);
+        setMovieData("");
+      }
+      if (movie.title === title) {
+        setMessage(``);
+        setMovieData(movie);
+      }
+    });
   }
 
   return (
     <>
       <div className="searchBarWrapper">
-        <h2>Search for a movie, series...</h2>
+        <h2>Search for a movie, show...</h2>
         <form className="inputWrapper">
           <input
             type="text"
@@ -40,6 +46,7 @@ export default function SearchBar() {
             Search !
           </button>
         </form>
+        {message && <p className={"searchBarWrapper__message"}>{message}</p>}
       </div>
     </>
   );

@@ -8,4 +8,10 @@ export default class MovieService {
     const res = req.data;
     return res.map((data) => new Movie(data));
   }
+
+  async getMovie(): Promise<Movie> {
+    const req = await getRequest("/movie");
+    const res = req.data;
+    return res.map((data) => new Movie(data));
+  }
 }

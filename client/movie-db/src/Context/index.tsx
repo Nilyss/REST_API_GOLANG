@@ -10,7 +10,8 @@ export const MovieContext = createContext(null);
 
 export const MovieContextProvider = ({ children }) => {
   // push datas in states
-  const [moviesData, setMoviesData] = useState([]);
+  const [moviesData, setMoviesData] = useState<Movie[]>([]);
+  const [movieData, setMovieData] = useState<Movie>();
 
   // ********** UseEffect **********
   // get all movies
@@ -19,11 +20,14 @@ export const MovieContextProvider = ({ children }) => {
       const req = await movieService.getMovies();
       setMoviesData(req);
     };
-    getMovies();
+    getMovies().then(() => {
+      if (moviesData) return;
+      throw "Can't fetch datas";
+    });
   }, []);
 
   return (
-    <MovieContext.Provider value={{ moviesData }}>
+    <MovieContext.Provider value={{ moviesData, setMovieData, movieData }}>
       {children}
     </MovieContext.Provider>
   );

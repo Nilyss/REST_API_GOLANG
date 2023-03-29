@@ -13,7 +13,7 @@ function App() {
     <MovieContextProvider>
       <div className="App">
         <header className="App-header">
-          <h1>Movies and Series DB</h1>
+          <h1>Movies and Shows DB</h1>
           <img src={logo} className="App-logo" alt="logo" />
         </header>
         <main>
