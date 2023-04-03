@@ -1,6 +1,7 @@
 import Movie from "../Models/movie";
 
-import { getRequest } from "../ApiCalls/apiCall";
+import { getRequest, postRequest } from "../ApiCalls/apiCall";
+
 export default class MovieService {
   // GET request
   async getMovies(): Promise<Movie[]> {
@@ -13,5 +14,11 @@ export default class MovieService {
     const req = await getRequest("/movie");
     const res = req.data;
     return res.map((data) => new Movie(data));
+  }
+
+  async addMovie(movie) {
+    const req = await postRequest("/movie/add");
+    const res = req.data;
+    console.log("res =>", res)
   }
 }

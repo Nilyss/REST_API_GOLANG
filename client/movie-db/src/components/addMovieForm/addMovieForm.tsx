@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 
 import "./addMovieForm.scss";
+
+import { MovieContext } from "../../Context";
 
 export default function AddMovieForm() {
   const [titleValue, setTitleValue] = useState("");
   const [overviewValue, setOverviewValue] = useState("");
+
+  const { postMovie } = useContext(MovieContext);
 
   const handleTitleChange = (event) => {
     setTitleValue(event.target.value);
@@ -23,7 +27,8 @@ export default function AddMovieForm() {
       description: overviewValue,
     }
 
-    console.log(movie)
+    postMovie(movie);
+
     setTitleValue("");
     setOverviewValue("");
   };

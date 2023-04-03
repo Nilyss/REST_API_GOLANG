@@ -25,3 +25,12 @@ export const getRequest = async (url, val = null) => {
     throw result.status;
   }
 };
+
+export const postRequest = async (url, data = null, val = null) => {
+  const result = await axios.post(url, data, { ...setRequest(val) });
+  if (result.status === 201 || result.status === 200) {
+    return result;
+  } else {
+    throw result.status;
+  }
+}

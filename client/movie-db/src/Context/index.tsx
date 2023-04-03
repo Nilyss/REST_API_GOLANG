@@ -26,8 +26,14 @@ export const MovieContextProvider = ({ children }) => {
     });
   }, []);
 
+  // post new Movie
+  const postMovie = async (movie: Movie) => {
+    await movieService.addMovie(movie);
+  };
+
+
   return (
-    <MovieContext.Provider value={{ moviesData, setMovieData, movieData }}>
+    <MovieContext.Provider value={{ moviesData, setMovieData, movieData, postMovie }}>
       {children}
     </MovieContext.Provider>
   );
