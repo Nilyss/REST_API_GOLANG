@@ -141,6 +141,7 @@ func AddMovie(res http.ResponseWriter, req *http.Request) {
 		}`)
 
 		utils.ReturnJsonResponse(res, http.StatusInternalServerError, HandlerMessage)
+		return
 	}
 
 	db.Moviedb[movie.ID] = movie

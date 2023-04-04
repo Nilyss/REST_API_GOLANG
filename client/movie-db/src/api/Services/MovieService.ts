@@ -17,7 +17,7 @@ export default class MovieService {
   }
 
   async addMovie(movie) {
-    const req = await postRequest("/movie/add");
+    const req = await postRequest("/movie/add", movie);
     const res = req.data;
     console.log("res =>", res)
   }

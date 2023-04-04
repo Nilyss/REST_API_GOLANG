@@ -23,8 +23,9 @@ export default function AddMovieForm() {
 
 
     const movie = {
-      title: titleValue,
-      description: overviewValue,
+      ID: Math.floor(Math.random() * 1000),
+      Title: titleValue,
+      Description: overviewValue,
     }
 
     postMovie(movie);
